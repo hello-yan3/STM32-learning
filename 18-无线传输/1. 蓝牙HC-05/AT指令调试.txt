@@ -1,0 +1,31 @@
+蓝牙模块连接USB转串口模块，
+蓝牙模块按钮按下，USB转串口模块连接至电脑，
+待蓝牙模块指示灯 间隔2s 闪烁，
+说明进入AT指令调试模式，
+打开串口调试助手，设置波特率 38400；
+
+
+AT指令：
+注意：如果发送失败，可以试试将 \r\n 替换为 回车键；   
+注意：所有字符均为英文半角字符（？×  ?√），AT指令不含 空格
+
+常用AT指令：
+AT\r\n              （测试模块是否可以正常工作）
+AT+VERSION?\r\n     （测试模块是否可以正常工作）
+AT+RESET\r\n        （复位）
+AT+ORGL\r\n         （产品恢复默认状态）
+AT+NAME?
+AT+NAME="Param"      (获取/修改 设备名称)
+AT+ROLE?
+AT+ROLE=<Param>      (获取/修改 工作模式(主模式/从模式))
+AT+PSWD?
+AT+PSWD="Param"      (获取/修改 蓝牙配对密码)
+AT+UART?            （设置串口波特率：115200，1位停止位，0位校验）   
+AT+UART=<Param>,<Param2>,<Param3>
+
+""代表参数需要在""内输入，一般是输入字符串
+<>代表参数直接输入，一般是输入数字
+
+两个蓝牙间的相互通信：
+博客：https://blog.csdn.net/seek97/article/details/81333701
+视频：https://www.bilibili.com/video/BV1ii4y1s79z

@@ -1,0 +1,29 @@
+系统定时器两个作用，一个是用于延时，一个是用于RTOS
+
+首先是延时：
+简单写法为：
+HAL_Delay();  延时时间为ms
+HAL_Delay() 原理：
+
+这里讲述系统默认 HAL_Delay() 原理：
+   
+首先，在 HAL_Init中，调用HAL_InitTick(TICK_INT_PRIORITY)函数：
+执行操作1为：HAL_SYSTICK_Config()，即设置系统定时器的SysTick->LOAD、VAL、CTRL，
+（这里将系统配置为1000Hz(LOAD寄存器)，此外这里系统定时器到达指定时间后进入中断(CTRL)，开启定时器后(CTRL)定时器不关闭;
+所以会一直计数，到达计数时间后进入中断）
+
+执行操作2为：HAL_NVIC_SetPriority(SysTick_IRQn(中断源), 0x0F(抢占优先级), 0U(子优先级));
+意思就是设置优先级最低；
+
+
+然后，SysTick_Handler()中断函数中，调用函数：HAL_IncTick()初始化时钟；
+HAL_IncTick()函数仅执行一个操作：uwTick += uwTickFreq;   uwTickFreq = 1;
+另外介绍 HAL_GetTick()函数，返回 uwTick 值，
+  
+在HAL_Delay(time)函数中，HAL_GetTick()获得当前时间，循环，直到HAL_GetTick() + time时刻，退出循环
+
+
+补充知识！SysTick_Handler()中断函数优先级最低，任意中断均可以打断 HAL_Delay()！！
+在中断中，不可以使用系统默认 HAL_Delay()！否则会陷入死循环！
+   
+因为这里的 HAL_Delay 并不是中断，所以可以中断中使用，不会卡死

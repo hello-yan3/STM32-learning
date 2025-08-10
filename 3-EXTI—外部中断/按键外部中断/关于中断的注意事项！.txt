@@ -1,0 +1,9 @@
+/* 配置抢占优先级的分组 */
+HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+
+这个函数是存在的！
+在HAL库中，默认在 HAL_Init(); 中调用！
+且默认配置为：
+HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+
+
